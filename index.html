@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لینک دعوت — میهن وب کشاورز</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Vazirmatn,Tahoma,'Segoe UI',sans-serif;background:linear-gradient(160deg,#e8f5e9,#f6fff9);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;color:#1f5f3d}
+  .card{background:#fff;border:2px solid #c8e6c9;border-radius:22px;max-width:420px;width:100%;padding:26px 20px;text-align:center;box-shadow:0 8px 30px rgba(46,125,50,.12)}
+  .ic{font-size:44px}
+  h1{font-size:clamp(1.1rem,4.5vw,1.4rem);margin:10px 0 4px}
+  .sub{font-size:clamp(.8rem,3.4vw,.92rem);color:#556;line-height:1.9;margin-bottom:14px}
+  .code-box{background:#e8f5e9;border-radius:12px;padding:12px;font-size:clamp(.95rem,4vw,1.1rem);font-weight:700;letter-spacing:1px;word-break:break-all;margin:12px 0}
+  .btn{display:block;width:100%;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:10px;text-decoration:none;color:#fff;background:#2e7d32;transition:.2s}
+  .btn:active{transform:scale(.98)}
+  .btn.myket{background:#1f5f3d}
+  .btn.copy{background:#fff;color:#2e7d32;border:2px solid #c8e6c9}
+  .hint{font-size:clamp(.72rem,3vw,.8rem);color:#778;margin-top:14px;line-height:1.9;text-align:right}
+  .hint b{color:#1f5f3d}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="ic">🌾</div>
+    <h1>دعوت به گروه / کانال</h1>
+    <div class="sub">این لینک دعوت از برنامه «میهن وب کشاورز» فرستاده شده است. با دکمه زیر برنامه باز می‌شود و می‌توانید به گروه یا کانال اضافه شوید.</div>
+    <div class="code-box" id="codeBox">mwk-………</div>
+    <button class="btn" id="openGithub">📲 باز کردن برنامه (نسخه گیت‌هاب)</button>
+    <a class="btn myket" id="openMyket" href="#">📲 باز کردن برنامه (نسخه مایکت)</a>
+    <button class="btn copy" id="copyBtn">📋 کپی کد دعوت</button>
+    <div class="hint">
+      اگر برنامه باز نشد:<br>
+      ۱) برنامه میهن وب کشاورز را باز کنید و وارد حساب شوید.<br>
+      ۲) به تب <b>پیام</b> بروید.<br>
+      ۳) در کادر <b>جستجو</b> (پایین صفحه) این کد را بچسبانید و «عضویت» را بزنید.
+    </div>
+  </div>
+<script>
+  var q = new URLSearchParams(location.search);
+  var code = (q.get('c') || q.get('join') || '').trim();
+  if (!/^mwk-/i.test(code)) { try { code = (code.match(/mwk-[A-Za-z0-9]{5,10}/i) || [''])[0]; } catch(e) { code = ''; } }
+  if (!code) { try { var m = location.href.match(/mwk-[A-Za-z0-9]{5,10}/i); code = m ? m[0] : ''; } catch(e) {} }
+  document.getElementById('codeBox').textContent = code || 'کد دعوت در لینک پیدا نشد';
+  var gh = document.getElementById('openGithub');
+  var mk = document.getElementById('openMyket');
+  if (code) {
+    gh.href = 'intent://join?c=' + encodeURIComponent(code) + '#Intent;scheme=mihanwebkeshavarz;package=ir.mihanweb.keshavarz;S.browser_fallback_url=' + encodeURIComponent(location.href) + ';end';
+    mk.href = 'intent://join?c=' + encodeURIComponent(code) + '#Intent;scheme=mihanwebkeshavarz;package=ir.saihdw.gttoc.ykdymrk;S.browser_fallback_url=' + encodeURIComponent(location.href) + ';end';
+  } else {
+    gh.href = mk.href = location.href;
+  }
+  document.getElementById('copyBtn').onclick = function() {
+    if (!code) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(function() { alert('کد کپی شد — در برنامه در کادر جستجو بچسبانید'); }).catch(function() { prompt('کد دعوت:', code); });
+    } else { prompt('کد دعوت:', code); }
+  };
+</script>
+</body>
+</html>
